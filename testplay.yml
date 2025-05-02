@@ -1,8 +1,0 @@
----
-- name: Test Functionality
-  hosts: all
-
-  tasks:
-  - name: Echo message
-    ansible.builtin.command:
-      cmd: echo "hello"
