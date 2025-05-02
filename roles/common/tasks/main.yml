@@ -1,0 +1,15 @@
+- name: Add user 'expensify'
+  become: true
+  user:
+    name: expensify
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+    state: present
+
+- name: Add SSH public key for expensify
+  become: true
+  ansible.posix.authorized_key:
+    user: expensify
+    state: present
+    key: "{{ lookup('file', '/home/ansible/.ssh/infra_team_authorized_keys') }}"
