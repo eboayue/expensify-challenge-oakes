@@ -4,8 +4,3 @@
   hosts: all
   roles:
     - common
-
-- name: configure and deploy the webservers
-  hosts: webservers
-  roles:
-    - webserver
