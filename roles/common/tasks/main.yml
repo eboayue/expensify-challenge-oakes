@@ -1,5 +1,4 @@
 - name: Add user 'expensify'
-  become: true
   user:
     name: expensify
     shell: /bin/bash
@@ -8,7 +7,6 @@
     state: present
 
 - name: Add SSH public key for expensify
-  become: true
   ansible.posix.authorized_key:
     user: expensify
     state: present

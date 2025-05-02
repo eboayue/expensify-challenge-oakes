@@ -1,0 +1,19 @@
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Copy appropriate webpage
+  copy:
+    content: "{{ 'a\n' if inventory_hostname == 'web_a' else 'b\n' }}"
+    dest: /var/www/html/index.html
+    owner: www-data
+    group: www-data
+    mode: '0644'
+
+- name: Run the Nginx service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
