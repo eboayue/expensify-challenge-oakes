@@ -11,3 +11,9 @@
   hosts: webservers
   roles:
     - webserver
+
+- name: configure and deploy the load balancer
+  become: true
+  hosts: loadbalancer
+  roles:
+    - loadbalancer
