@@ -6,7 +6,7 @@
 
 - name: Copy appropriate webpage
   copy:
-    content: "{{ 'a' if inventory_hostname == 'web1' else 'b' }}"
+    content: "{{ 'a\n' if inventory_hostname == 'web_a' else 'b\n' }}"
     dest: /var/www/html/index.html
     owner: www-data
     group: www-data
