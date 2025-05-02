@@ -1,6 +1,12 @@
 # This playbook deploys the whole application stack.
 
 - name: apply common configuration to all nodes
+  become: true
   hosts: all
   roles:
     - common
+
+- name: configure and deploy the webservers
+  hosts: webservers
+  roles:
+    - webserver
