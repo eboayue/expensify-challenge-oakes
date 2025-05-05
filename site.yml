@@ -17,3 +17,9 @@
   hosts: loadbalancer
   roles:
     - loadbalancer
+
+- name: configure and deploy Nagios
+  become: true
+  hosts: nagios
+  roles:
+    - nagios
