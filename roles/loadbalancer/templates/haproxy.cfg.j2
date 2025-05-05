@@ -18,9 +18,9 @@ frontend balancer
 
 backend webservers
     balance roundrobin
-    stick-table type ip size 200k expire 1h
-    stick on src
+    cookie SERVERID insert indirect nocache
     option httpchk GET /
     http-request set-header X-Forwarded-For %[src]
-    server web_a 54.191.190.151:80 check
-    server web_b 34.221.22.164:80 check
+
+    server web_a 54.191.190.151:80 check cookie web_a
+    server web_b 34.221.22.164:80 check cookie web_b
