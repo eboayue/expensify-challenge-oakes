@@ -2,6 +2,8 @@ global
     log /dev/log    local0
     maxconn 2048
     daemon
+    stats socket /var/run/haproxy.sock mode 600 level admin
+    stats timeout 2m
 
 defaults
     log     global
@@ -11,6 +13,13 @@ defaults
     timeout connect 5s
     timeout client  50s
     timeout server  50s
+
+frontend stats
+    mode http
+    bind *:8404
+    stats enable
+    stats uri /stats
+    stats refresh 10s
 
 frontend balancer
     bind :60000-65000
