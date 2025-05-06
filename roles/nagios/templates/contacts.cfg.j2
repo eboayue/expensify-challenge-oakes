@@ -1,0 +1,26 @@
+###############################################################################
+#
+# CONTACTS
+#
+###############################################################################
+
+define contact {
+
+    contact_name            nagiosadmin             ; Short name of user
+    use                     generic-contact         ; Inherit default values from generic-contact template (defined above)
+    alias                   Nagios Admin            ; Full name of user
+    email                   keboayue@gmail.com ; <<***** CHANGE THIS TO YOUR EMAIL ADDRESS ******
+}
+
+###############################################################################
+#
+# CONTACT GROUPS
+#
+###############################################################################
+
+define contactgroup {
+
+    contactgroup_name       admins
+    alias                   Nagios Administrators
+    members                 nagiosadmin
+}

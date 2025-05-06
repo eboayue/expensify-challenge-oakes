@@ -7,12 +7,20 @@
     state: present
     update_cache: yes
 
-- name: Copy Nagios configuration files
+- name: Copy custom Nagios configuration files
   template:
     src: "{{ item }}"
     dest: "/etc/nagios4/conf.d/{{ item | basename | regex_replace('\\.j2$', '') }}"
     mode: '0644'
   loop:
-    - nagios.cfg.j2
     - hosts.cfg.j2
+  notify: Restart nagios
+
+- name: Replace default Nagios configuration files
+  template:
+    src: "{{ item }}"
+    dest: "/etc/nagios4/objects/{{ item | basename | regex_replace('\\.j2$', '') }}"
+    mode: '0644'
+  loop:
+    - contacts.cfg.j2
   notify: Restart nagios
