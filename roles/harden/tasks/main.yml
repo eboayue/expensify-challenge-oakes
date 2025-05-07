@@ -1,22 +1,15 @@
-- name: Allow SSH only from Nagios server to others
+- name: Allow SSH for users and Ansible from Nagios server to others
   when:
     - inventory_hostname in groups['webservers'] or
       inventory_hostname in groups['loadbalancer']
   ufw:
     rule: allow
     from_ip: 35.95.66.224
-    to_port: 22
+    to_port: "{{ item }}"
     proto: tcp
-
-- name: Allow Ansible to SSH on the port it uses
-  when:
-    - inventory_hostname in groups['webservers'] or
-      inventory_hostname in groups['loadbalancer']
-  ufw:
-    rule: allow
-    from_ip: 35.95.66.224
-    to_port: 2222
-    proto: tcp
+  loop:
+    - 22
+    - 2222
 
 - name: Deny all other SSH
   when:
@@ -27,14 +20,37 @@
     to_port: 22
     proto: tcp
 
-- name: Allow HTTP and NRPE
+- name: Allow HTTP from load balancer on webservers
+  when:
+    - inventory_hostname in groups['webservers']
   ufw:
     rule: allow
-    port: "{{ item }}"
+    from_ip: 54.202.28.125
+    port: 80
     proto: tcp
-  loop:
-    - 80
-    - 5666
+
+- name: Allow HTTP from anywhere for load balancer and Nagios
+  when:
+    - inventory_hostname in groups['loadbalancer'] or
+      inventory_hostname in groups['nagios']
+  ufw:
+    rule: allow
+    port: 80
+    proto: tcp
+
+- name: Allow stats port for HAProxy
+  when:
+    - inventory_hostname in groups['loadbalancer']
+  ufw:
+    rule: allow
+    port: 8404
+    proto: tcp
+
+- name: Allow NRPE
+  ufw:
+    rule: allow
+    port: 5666
+    proto: tcp
 
 - name: Enable UFW
   ufw:
