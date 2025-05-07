@@ -11,3 +11,10 @@
     user: expensify
     state: present
     key: "{{ lookup('file', '/home/ansible/.ssh/infra_team_authorized_keys') }}"
+
+- name: Install NRPE
+  apt:
+    name:
+      - nagios-nrpe-server
+    state: present
+    update_cache: yes
