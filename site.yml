@@ -23,3 +23,8 @@
   hosts: nagios
   roles:
     - nagios
+
+- name: harden the environment
+  become: true
+  roles:
+   - harden
