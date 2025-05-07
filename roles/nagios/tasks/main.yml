@@ -15,11 +15,15 @@
         dest: /etc/nagios4/conf.d/hosts.cfg
         mode: '0644'
 
-    - name: Replace default contacts config file
+    - name: Replace some default config files
       copy:
-        src: contacts.cfg
-        dest: /etc/nagios4/objects/contacts.cfg
+        src: "{{ item }}"
+        dest: "/etc/nagios4/objects/{{ item }}"
         mode: '0644'
+      loop:
+        - contacts.cfg
+        - services.cfg
+        - localhost.cfg
 
     - name: Replace default CGI config file
       copy:
@@ -60,3 +64,16 @@
         cmd: a2enmod cgi
   notify:
     - Restart apache
+
+- name: Install custom Nagios check
+  block:
+    - name: Copy list of webservers
+      copy:
+        src: webservers.txt
+        dest: /etc/nagios4/webservers.txt
+        mode: '0755'
+    - name: Copy check script
+      copy:
+        src: check_webservers.py
+        dest: /usr/lib/nagios/plugins/check_webservers.py
+        mode: '0755'
