@@ -27,6 +27,15 @@
     to_port: 22
     proto: tcp
 
+- name: Allow HTTP and NRPE
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - 80
+    - 5666
+
 - name: Enable UFW
   ufw:
     state: enabled
