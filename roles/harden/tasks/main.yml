@@ -1,7 +1,7 @@
 - name: Allow SSH only from Nagios server to others
-  hosts:
-    - webservers
-    - loadbalancer
+  when:
+    - inventory_hostname in groups['webservers'] or
+      inventory_hostname in groups['loadbalancer']
   ufw:
     rule: allow
     from_ip: 35.95.66.224
@@ -9,15 +9,14 @@
     proto: tcp
 
 - name: Deny all other SSH
-  hosts:
-    - webservers
-    - loadbalancer
+  when:
+    - inventory_hostname in groups['webservers'] or
+      inventory_hostname in groups['loadbalancer']
   ufw:
     rule: deny
     to_port: 22
     proto: tcp
 
 - name: Enable UFW
-  hosts: all
   ufw:
     state: enabled
