@@ -5,6 +5,7 @@
   hosts: all
   roles:
     - common
+    - harden
 
 - name: configure and deploy the webservers
   become: true
@@ -23,8 +24,3 @@
   hosts: nagios
   roles:
     - nagios
-
-- name: harden the environment
-  become: true
-  roles:
-   - harden
