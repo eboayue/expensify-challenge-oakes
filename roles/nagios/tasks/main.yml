@@ -9,11 +9,14 @@
         state: present
         update_cache: yes
 
-    - name: Copy hosts config file
+    - name: Copy custom config files
       copy:
-        src: hosts.cfg
-        dest: /etc/nagios4/conf.d/hosts.cfg
+        src: "{{ item }}"
+        dest: "/etc/nagios4/conf.d/{{ item }}"
         mode: '0644'
+      loop:
+        - hosts.cfg
+        - services.cfg
 
     - name: Replace some default config files
       copy:
@@ -22,7 +25,6 @@
         mode: '0644'
       loop:
         - contacts.cfg
-        - services.cfg
         - localhost.cfg
 
     - name: Replace default CGI config file
