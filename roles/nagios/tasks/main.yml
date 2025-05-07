@@ -26,6 +26,7 @@
       loop:
         - contacts.cfg
         - localhost.cfg
+        - commands.cfg
 
     - name: Replace default CGI config file
       copy:
