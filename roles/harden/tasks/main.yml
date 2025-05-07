@@ -8,6 +8,16 @@
     to_port: 22
     proto: tcp
 
+- name: Allow Ansible to SSH on the port it uses
+  when:
+    - inventory_hostname in groups['webservers'] or
+      inventory_hostname in groups['loadbalancer']
+  ufw:
+    rule: allow
+    from_ip: 35.95.66.224
+    to_port: 2222
+    proto: tcp
+
 - name: Deny all other SSH
   when:
     - inventory_hostname in groups['webservers'] or
