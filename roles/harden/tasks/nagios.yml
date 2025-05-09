@@ -1,0 +1,22 @@
+- name: Allow SSH
+  ufw:
+    rule: allow
+    to_port: 22
+    proto: tcp
+
+- name: Allow HTTP
+  ufw:
+    rule: allow
+    port: 80
+    proto: tcp
+
+- name: Allow NRPE
+  ufw:
+    rule: allow
+    from_ip: "{{ item }}"
+    port: 5666
+    proto: tcp
+  loop:
+    - 54.191.190.151
+    - 34.221.22.164
+    - 54.202.28.125
