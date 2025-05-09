@@ -1,0 +1,11 @@
+- name: Harden webservers
+  include_tasks: webservers.yml
+  when: inventory_hostname in groups['webservers']
+
+- name: Harden load balancer
+  include_tasks: loadbalancer.yml
+  when: inventory_hostname in groups['loadbalancer']
+
+- name: Harden Nagios server
+  include_tasks: nagios.yml
+  when: inventory_hostname in groups['nagios']

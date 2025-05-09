@@ -23,3 +23,9 @@
   hosts: nagios
   roles:
     - nagios
+
+- name: harden nodes
+  become: true
+  hosts: all
+  roles:
+    - harden

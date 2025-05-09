@@ -1,0 +1,38 @@
+- name: Allow SSH for users and Ansible from Nagios server
+  ufw:
+    rule: allow
+    from_ip: 35.95.66.224
+    to_port: "{{ item }}"
+    proto: tcp
+  loop:
+    - 22
+    - 2222
+
+- name: Deny all other SSH
+  ufw:
+    rule: deny
+    to_port: 22
+    proto: tcp
+
+- name: Allow NRPE
+  ufw:
+    rule: allow
+    from_ip: 35.95.66.224
+    port: 5666
+    proto: tcp
+
+- name: Allow traffic on 60000-65000
+  ufw:
+    rule: allow
+    port: "60000:65000"
+    proto: tcp
+
+- name: Allow stats port for HAProxy
+  ufw:
+    rule: allow
+    port: 8404
+    proto: tcp
+
+- name: Enable UFW
+  ufw:
+    state: enabled
