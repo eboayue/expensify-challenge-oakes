@@ -21,10 +21,10 @@
     port: 5666
     proto: tcp
 
-- name: Allow HTTP
+- name: Allow traffic on 60000-65000
   ufw:
     rule: allow
-    port: 80
+    port: "60000:65000"
     proto: tcp
 
 - name: Allow stats port for HAProxy
